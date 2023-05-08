@@ -20,7 +20,7 @@ public class Graph<T> {
 		knowns.put(startPoint, true);
 		while (!pq.isEmpty()) {
 			Edge next = pq.poll();
-			if (knowns.get(next.otherNode) == true) continue;
+			if (knowns.get(next.otherNode) != null) continue;
 
 			al.add(next);
 			pq.addAll(next.otherNode.neighbors);
@@ -34,7 +34,7 @@ public class Graph<T> {
 		nodes = new Hashtable<T, Node>();
 	}
 	
-	private class Node {
+	public class Node {
 		private T element;
 		private ArrayList<Edge> neighbors;
 		
@@ -48,6 +48,10 @@ public class Graph<T> {
 			neighbors.add(new Edge(this, otherNode, cost));
 		}
 		
+		public T getElement() {
+			return element;
+		}
+		
 	}
 	
 	protected class Edge implements Comparable<Edge> {
@@ -59,6 +63,18 @@ public class Graph<T> {
 			this.start = start;
 			otherNode = n;
 			cost = c;
+		}
+		
+		public Node getStart() {
+			return start;
+		}
+		
+		public Node getOther() {
+			return otherNode;
+		}
+		
+		public int getCost() {
+			return cost;
 		}
 
 		@Override
