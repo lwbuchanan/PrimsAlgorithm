@@ -8,23 +8,23 @@ public class Graph<T> {
 
 
 	public ArrayList<Edge> primsGetMST(T start) {
-		if (start == null) throw new NullPointerException();
-		ArrayList<Edge> al = new ArrayList<>();
-		PriorityQueue<Edge> pq = new PriorityQueue<>();
+		if (start == null) throw new NullPointerException(); // 1 time
+		ArrayList<Edge> al = new ArrayList<>(); // 1 time
+		PriorityQueue<Edge> pq = new PriorityQueue<>(); // 1 time
 
-		Node startPoint = nodes.get(start);
-		if (startPoint == null) return null;
+		Node startPoint = nodes.get(start); // 1 time
+		if (startPoint == null) return null; // 1 time
 
-		pq.addAll(startPoint.neighbors);
-		HashMap<Node, Boolean> knowns = new HashMap<>();
-		knowns.put(startPoint, true);
-		while (!pq.isEmpty()) {
-			Edge next = pq.poll();
-			if (knowns.get(next.otherNode) != null) continue;
+		pq.addAll(startPoint.neighbors); // e*log(e) where e is the number of edges one the startPoint
+		HashMap<Node, Boolean> knowns = new HashMap<>(); // 1 time
+		knowns.put(startPoint, true); // 1 time
+		while (!pq.isEmpty()) { // runs a total of e times where e is the number of edges
+			Edge next = pq.poll(); // log(n) time
+			if (knowns.get(next.otherNode) != null) continue; // 1 time
 
-			al.add(next);
-			pq.addAll(next.otherNode.neighbors);
-			knowns.put(next.otherNode, true);
+			al.add(next); // Amortized O(1)
+			pq.addAll(next.otherNode.neighbors); // e*log(e) where e is the number of edges on the current node
+			knowns.put(next.otherNode, true); // 1 time
 		}
 		
 		return al;
