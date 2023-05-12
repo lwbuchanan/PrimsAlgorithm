@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -144,4 +145,38 @@ public class Testing {
     	System.out.println(sum);
     	System.out.println("\n");
     }
+
+	@Test
+	public void performance() {
+
+		int nodes = 5000;
+		Random rand = new Random();
+		Graph<Integer> g = new Graph<>();
+		System.out.println("adding nodes..");
+		for (int i = 0; i < nodes; i++) {
+			g.addNode(i);
+		}
+		System.out.println("connecting graph..");
+		for (int i = 0; i < nodes; i++) {
+			for (int j = 0; j < nodes; j++) {
+				if (i == j) continue;
+				g.addEdge(j, i, rand.nextInt(1, 1000));
+			}
+		}
+
+
+		System.out.println("graph complete. Running algorithm..");
+		long start = System.currentTimeMillis();
+		g.primsGetMST(0);
+		long end = System.currentTimeMillis();
+		long duration = end - start;
+
+		System.out.println(nodes + " nodes took " + duration + " milliseconds");
+
+	}
+
+
+
+
+
 }
